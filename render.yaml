@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: my-django-api-final
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn project.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: myproject.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: my-database
+          property: connectionString
+databases:
+  - name: my-database
+    plan: free
